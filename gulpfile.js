@@ -3,20 +3,37 @@
 var gulp = require("gulp"),
   sass = require("gulp-sass"),
   postcss = require("gulp-postcss"),
+  // it adds browser prefixes
   autoprefixer = require("autoprefixer"),
+  // it reorders css options in wished order
   csscomb = require("gulp-csscomb"),
+  // css minifier
   nano = require("gulp-cssnano"),
+  // it helps rename files/
+  // for example, adding suffix .min to files
   rename = require("gulp-rename"),
+  // image minifier
   imagemin = require("gulp-imagemin"),
+  // js minifier
   uglify = require("gulp-uglify"),
+  // it allow to concatenate files into one.
+  // but, actually, it doesn't need now,
+  // because of pagebuilder
   concat = require("gulp-concat"),
+  // it replaces one string in the file to another.
   replace = require("gulp-replace"),
+  // it hepls to execute tasks in the right order
   runSequence = require("run-sequence"),
+  // simple template engine
   pagebuilder = require("gulp-pagebuilder"),
+  // livereload
   browserSync = require("browser-sync"),
-  combineMq = require("gulp-combine-mq"),
   reload = browserSync.reload,
+  // it organize media querries at the end of the style file
+  combineMq = require("gulp-combine-mq"),
+  // it removes files
   del = require("del"),
+  // it turns relative path to file into filename
   flatten = require("gulp-flatten");
 
 var path = {
@@ -32,6 +49,7 @@ var path = {
     self: "source",
     style: {
       temp: "source/sass/*.scss",
+      // double asterisk means any amounts any symbols.
       folder: "source/sass/**/**.*",
       self: "source/sass/"
     },
@@ -67,6 +85,9 @@ gulp.task("build:style", function () {
 
 gulp.task("style", function () {
   return gulp.src([
+    // if in the project there are several basic style files
+    // the variable 'path.src.style.self' is equal to folder,
+    // which contains the files. in other case the one is equal to path to the basic style file.
         path.src.style.self + "case.scss",
         path.src.style.self + "blog.scss"
     ])
@@ -189,6 +210,7 @@ gulp.task("build", function () {
             "build:js",
             "build:html",
             "build:img",
+            // fonts:build task doesn't diffs from fonts, therefore it doesn't exist.
             "fonts"
         ]
     );
