@@ -16,10 +16,6 @@ var gulp = require("gulp"),
   imagemin = require("gulp-imagemin"),
   // js minifier
   uglify = require("gulp-uglify"),
-  // it allow to concatenate files into one.
-  // but, actually, it doesn't need now,
-  // because of pagebuilder
-  concat = require("gulp-concat"),
   // it replaces one string in the file to another.
   replace = require("gulp-replace"),
   // it hepls to execute tasks in the right order
@@ -34,7 +30,13 @@ var gulp = require("gulp"),
   // it removes files
   del = require("del"),
   // it turns relative path to file into filename
-  flatten = require("gulp-flatten");
+  flatten = require("gulp-flatten"),
+  // custom realization standart watch.
+  // gulp doesn't notice files created after launching gulp.
+  // this plugin resolves this issue.
+  watch = require("gulp-watch"),
+  // streaming helper for gulp-watch.
+  batch = require("gulp-batch");
 
 var path = {
   build: {
@@ -194,13 +196,24 @@ gulp.task("server", function () {
   });
 });
 
-gulp.task("watch", function () {
-  gulp.watch(path.src.style.folder, ["style"]);
-  gulp.watch(path.src.html.folder, ["html"]);
-  gulp.watch(path.src.fonts, ["fonts"]);
-  gulp.watch(path.src.img, ["img"]);
-  gulp.watch(path.src.script.folder, ["js"]);
-});
+
+gulp.task("watch", function() {
+  watch(path.src.style.folder, batch(function(events, done) {
+      gulp.start("style", done);
+  }));
+  watch(path.src.html.folder, batch(function(events, done) {
+      gulp.start("html", done);
+  }));
+  watch(path.src.fonts, batch(function(events, done) {
+      gulp.start("fonts", done);
+  }));
+  watch(path.src.img, batch(function(events, done) {
+      gulp.start("img", done);
+  }));
+  watch(path.src.script.folder, batch(function(events, done) {
+      gulp.start("js", done);
+  }));
+})
 
 gulp.task("build", function () {
     runSequence(
