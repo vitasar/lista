@@ -78,7 +78,9 @@ gulp.task("build:style", function () {
         path.src.style.self + "case.scss",
         path.src.style.self + "blog.scss"
     ])
-    .pipe(sass().on("error", sass.logError))
+    .pipe(sass({
+        includePaths: normalize.includePaths
+    }).on("error", sass.logError))
     .pipe(postcss([autoprefixer({browsers: ["last 4 versions"]})]))
     .pipe(csscomb())
     .pipe(combineMq())
