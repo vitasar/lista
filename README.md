@@ -19,4 +19,4 @@ You need to analyze pull requests, comment them (if nessasary) and inform a deve
 If you find a bug you should make an issue.
 In the issue you describe the substance of the problem and
 condition of appearing the bug.
-It is good practice, if you'll say how it has to work properly.
+It is good practice, if you'll say how it has to work properly
