@@ -13,7 +13,7 @@ Element to slide gets the following CSS:
  * @param  {Node} elem Element to show and hide
  */
 function slideDown(elem) {
-  elem.style.maxHeight = '1000px';
+  elem.style.maxHeight = '2000px';
   // We're using a timer to set opacity = 0 because setting max-height = 0 doesn't (completely) hide the element.
   elem.style.opacity   = '1';
 }
