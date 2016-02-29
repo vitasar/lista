@@ -1,3 +1,5 @@
+// event.originalEvent doesn't define suddenly! work with it
+
 /*
 @param DOMElement scrollField  place where scroll must to happen
 @param DOMElement scroll       frame where scroll is working in real
@@ -25,7 +27,6 @@ function scroll__start (scrollField, scroll, unscroll) {
     var delta = 0;
 
 
-    console.log(event);
     // Old school scrollwheel delta
     if (event.detail) { delta = -event.detail*40; }
 
@@ -42,13 +43,13 @@ function scroll__start (scrollField, scroll, unscroll) {
 
 
   scrollField.addEventListener("touchstart", function(event) {
-    coords__start = event.originalEvent.changedTouches[0].pageY;
+    coords__start = event.changedTouches[0].pageY;
     touch = true;
   });
   window.addEventListener("touchmove", function(event) {
     if (touch) {
       event.preventDefault();
-      var coords__finish = event.originalEvent.changedTouches[0].pageY,
+      var coords__finish = event.changedTouches[0].pageY,
           delta = coords__finish - coords__start;
           coords__start = coords__finish;
 
