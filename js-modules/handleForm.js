@@ -1,3 +1,4 @@
+// TODO: make comments.
 // think about data-attributes appearing and hiding.
 function handleForm(form, btn) {
   var name = form.getElementsByClassName("js-name"),
@@ -156,21 +157,16 @@ function handleForm(form, btn) {
       } else if (form.classList.contains("modal-form--offer")) {
         type = "offer";
       };
-      // this condition only for preventing ajax requests on localhost
-      if (document.location.hostname.indexOf("allstreets") + 1) {
-        var request = new XMLHttpRequest();
-        request.open("GET", "/udata/custom/sendData2Manager/" + type + "/" + serialize(form) + "/" + form.getAttribute("data-page-id") + "/", true);
+      var request = new XMLHttpRequest();
+      request.open("GET", "/my/url/", true);
 
-        request.onload = function() {
-          if (this.status >= 200 && this.status < 400) {
-            toggleForm();
-          };
+      request.onload = function() {
+        if (this.status >= 200 && this.status < 400) {
+          toggleForm();
         };
+      };
 
-        request.send();
-      } else {
-        console.info("Hostname of this site differents from 'allstreets'");
-      }
+      request.send();
     }
   }
 
