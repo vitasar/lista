@@ -1,9 +1,13 @@
 // TODO: make comments.
 // think about data-attributes appearing and hiding.
-function handleForm(form, btn) {
+function handleForm(form, btn, fn) {
   var name = form.getElementsByClassName("js-name"),
       email = form.getElementsByClassName("js-email"),
       phone = form.getElementsByClassName("js-phone"),
+      password = {
+        self: form.getElementsByClassName("js-pass"),
+        repeat: form.getElementsByClassName("js-pass-repeat")
+      },
       field = form.getElementsByClassName("js-field"),
       close = form.getElementsByClassName("js-close"),
       overlay;
@@ -97,6 +101,34 @@ function handleForm(form, btn) {
     return true;
   }
 
+  function isValidPassword() {
+    if (password.self[0].value.length < 6) {
+      password.self[0].classList.add("invalid");
+
+      setTimeout(function() {
+        password.self[0].classList.remove("invalid");
+      },1000);
+
+      return false;
+    };
+    return true;
+  }
+
+  function isValidSecondPassword() {
+    if (isValidPassword) {
+      if (password.repeat[0].value !== password.self[0].value) {
+        password.repeat[0].classList.add("invalid");
+
+        setTimeout(function() {
+          password.repeat[0].classList.remove("invalid");
+        },1000);
+
+        return false;
+      };
+      return true;
+    }
+  }
+
   function validateEverything() {
     if (name.length) {
       if (!isValidName()) {
@@ -116,13 +148,24 @@ function handleForm(form, btn) {
       }
     }
 
+    if (password.self.length) {
+      if (!isValidPassword()) {
+        return false;
+      };
+      if (password.repeat.length) {
+        if (!isValidSecondPassword()) {
+          return false;
+        };
+      }
+    }
+
     if (field.length) {
       for (var i = 0; i < field.length; i++) {
         if (!isEmptyField(field[i])) {
           return false;
         };
       };
-    }
+    };
 
     return true;
   }
@@ -149,24 +192,9 @@ function handleForm(form, btn) {
       event.preventDefault();
       return false;
     } else {
-      var type;
-      if (form.classList.contains("modal-form--application")) {
-        type = "revision";
-      } else if (form.classList.contains("modal-form--question")) {
-        type = "question";
-      } else if (form.classList.contains("modal-form--offer")) {
-        type = "offer";
+      if (undefined != fn) {
+        fn(form);
       };
-      var request = new XMLHttpRequest();
-      request.open("GET", "/my/url/", true);
-
-      request.onload = function() {
-        if (this.status >= 200 && this.status < 400) {
-          toggleForm();
-        };
-      };
-
-      request.send();
     }
   }
 
@@ -192,6 +220,13 @@ function handleForm(form, btn) {
   if (email.length) {
     email[0].addEventListener("blur", validateEmail);
     // email[0].addEventListener("keyup", ValidForm);
+  }
+
+  if (password.self.length) {
+    password.self[0].addEventListener("blur", isValidPassword);
+    if (password.repeat.length) {
+      password.repeat[0].addEventListener("blur", isValidSecondPassword);
+    };
   }
 
   form.addEventListener("submit", submitForm);
