@@ -4,7 +4,7 @@ function serialize(form) {
     return;
   }
   var i, j, q = [];
-  for (i = form.elements.length - 1; i >= 0; i = i - 1) {
+  for (i = 0; i < form.elements.length; i++) {
     if (form.elements[i].name === "") {
       continue;
     }
