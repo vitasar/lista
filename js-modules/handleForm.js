@@ -14,7 +14,7 @@ function handleForm(form, btn, fn) {
 
   if (form.parentNode.classList.contains("js-overlay")) {
     overlay = form.parentNode;
-  };
+  }
 
   function toggleForm() {
     overlay.classList.toggle("modal--show");
@@ -23,7 +23,7 @@ function handleForm(form, btn, fn) {
   function closeFormOnEsc(event) {
     if ((event.keyCode == 27) && overlay.classList.contains("modal--show")) {
       toggleForm();
-    };
+    }
   }
 
   function validateEmail() {
@@ -74,7 +74,7 @@ function handleForm(form, btn, fn) {
       },1000);
 
       return false;
-    };
+    }
     return true;
   }
 
@@ -87,7 +87,7 @@ function handleForm(form, btn, fn) {
 
   // to make an attention to this function
   function isEmptyField(field) {
-    var self = (undefined == this.classList) ? field : this;
+    var self = (undefined === this.classList) ? field : this;
 
     if (!self.value.length) {
       self.classList.add("invalid");
@@ -110,7 +110,7 @@ function handleForm(form, btn, fn) {
       },1000);
 
       return false;
-    };
+    }
     return true;
   }
 
@@ -124,7 +124,7 @@ function handleForm(form, btn, fn) {
         },1000);
 
         return false;
-      };
+      }
       return true;
     }
   }
@@ -151,11 +151,11 @@ function handleForm(form, btn, fn) {
     if (password.self.length) {
       if (!isValidPassword()) {
         return false;
-      };
+      }
       if (password.repeat.length) {
         if (!isValidSecondPassword()) {
           return false;
-        };
+        }
       }
     }
 
@@ -163,9 +163,9 @@ function handleForm(form, btn, fn) {
       for (var i = 0; i < field.length; i++) {
         if (!isEmptyField(field[i])) {
           return false;
-        };
-      };
-    };
+        }
+      }
+    }
 
     return true;
   }
@@ -174,7 +174,7 @@ function handleForm(form, btn, fn) {
   // think it over.
   function ValidForm() {
     if (this.classList.contains("invalid")) {
-      this.classList.remove("invalid")
+      this.classList.remove("invalid");
       this.classList.add("valid");
     }
 
@@ -185,16 +185,14 @@ function handleForm(form, btn, fn) {
     }
   }
 
-[snp tpl="js/modules/serialize.js" ]
-
   function submitForm(event) {
     if (!validateEverything()) {
       event.preventDefault();
       return false;
     } else {
-      if (undefined != fn) {
+      if (undefined !== fn) {
         fn(form);
-      };
+      }
     }
   }
 
@@ -202,14 +200,14 @@ function handleForm(form, btn, fn) {
     for (var i = field.length; i--;) {
       // field[i].addEventListener("keyup", ValidForm);
       field[i].addEventListener("blur", isEmptyField);
-    };
+    }
   }
 
   if (name.length) {
     name[0].addEventListener("blur", isValidName);
     // name[0].addEventListener("keyup", ValidForm);
     name[0].addEventListener("keyup", typeVetoName);
-  };
+  }
 
   if (phone.length) {
     phone[0].addEventListener("blur", isValidPhone);
@@ -226,12 +224,12 @@ function handleForm(form, btn, fn) {
     password.self[0].addEventListener("blur", isValidPassword);
     if (password.repeat.length) {
       password.repeat[0].addEventListener("blur", isValidSecondPassword);
-    };
+    }
   }
 
   form.addEventListener("submit", submitForm);
 
-  if (undefined != overlay) {
+  if (undefined !== overlay) {
     if (close.length) {
       close[0].addEventListener("click", toggleForm);
       window.addEventListener("keydown", closeFormOnEsc);
@@ -239,7 +237,7 @@ function handleForm(form, btn, fn) {
 
     if (btn) {
       btn.addEventListener("click", toggleForm);
-    };
-  };
+    }
+  }
 
 }
